@@ -1,8 +1,3 @@
-// Import type declarations first
-import './src/types/vite';
-import './src/types/vitejs-plugin-react';
-
-// Now import the actual modules
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';

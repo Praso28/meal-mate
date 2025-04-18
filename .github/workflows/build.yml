@@ -29,6 +29,8 @@ jobs:
     - name: Build frontend
       run: |
         cd frontend
+        mkdir -p src/types
+        echo 'declare module "@vitejs/plugin-react" { const plugin: any; export default plugin; }' > src/types/vitejs-plugin-react.d.ts
         npx vite build
         cd ..
 
