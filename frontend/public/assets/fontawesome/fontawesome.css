@@ -1,0 +1,43 @@
+/* Font Awesome Icons (Minimal Set) */
+
+@font-face {
+  font-family: 'FontAwesome';
+  src: url('./fontawesome-webfont.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.fa {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Basic icons used in the app */
+.fa-bars:before { content: "\f0c9"; }
+.fa-bell:before { content: "\f0f3"; }
+.fa-user:before { content: "\f007"; }
+.fa-home:before { content: "\f015"; }
+.fa-users:before { content: "\f0c0"; }
+.fa-gift:before { content: "\f06b"; }
+.fa-chart-bar:before { content: "\f080"; }
+.fa-cog:before { content: "\f013"; }
+.fa-plus:before { content: "\f067"; }
+.fa-clipboard-list:before { content: "\f46d"; }
+.fa-box:before { content: "\f187"; }
+.fa-truck:before { content: "\f0d1"; }
+.fa-envelope:before { content: "\f0e0"; }
+.fa-phone:before { content: "\f095"; }
+.fa-facebook-f:before { content: "\f39e"; }
+.fa-twitter:before { content: "\f099"; }
+.fa-instagram:before { content: "\f16d"; }
+.fa-hand-holding-heart:before { content: "\f4be"; }
+.fa-chart-line:before { content: "\f201"; }
+.fa-check:before { content: "\f00c"; }
+.fa-check-circle:before { content: "\f058"; }
+.fa-clock:before { content: "\f017"; }
+.fa-database:before { content: "\f1c0"; }
+.fa-alert-circle:before { content: "\f06a"; }

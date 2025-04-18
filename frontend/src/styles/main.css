@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.loading-spinner {
+  @apply flex items-center justify-center min-h-screen;
+}
+
+.loading-spinner::after {
+  content: '';
+  @apply w-12 h-12 border-4 border-orange-500 border-t-transparent rounded-full animate-spin;
+}// foodBank.js
+module.exports = (sequelize, DataTypes) => {
+  const FoodBank = sequelize.define('FoodBank', {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING, allowNull: false },
+    location: { type: DataTypes.STRING },
+    capacity: { type: DataTypes.INTEGER },
+    contact: { type: DataTypes.STRING }
+  });
+
+  return FoodBank;
+};
+// foodBank.js
+module.exports = (sequelize, DataTypes) => {
+  const FoodBank = sequelize.define('FoodBank', {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING, allowNull: false },
+    location: { type: DataTypes.STRING },
+    capacity: { type: DataTypes.INTEGER },
+    contact: { type: DataTypes.STRING }
+  });
+
+  return FoodBank;
+};

@@ -1,0 +1,42 @@
+name: Build Electron App
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+
+    - name: Install dependencies
+      run: |
+        npm install
+        cd frontend && npm install
+        cd ../backend && npm install
+        cd ..
+
+    - name: Build frontend
+      run: |
+        cd frontend
+        npx vite build
+        cd ..
+
+    - name: Package Electron app
+      run: npx electron-builder --win
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: MealMate-Windows
+        path: dist/*.exe
