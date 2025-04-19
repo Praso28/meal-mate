@@ -94,7 +94,7 @@ function createWindow() {
   // Load the app
   const startUrl = isDev
     ? 'http://localhost:5173' // Vite dev server URL
-    : `file://${path.join(__dirname, '../frontend/dist/index.html')}`;
+    : `file://${path.join(__dirname, '../frontend/dist/index.html').replace(/\\/g, '/')}`;
 
   mainWindow.loadURL(startUrl);
 
