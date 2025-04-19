@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Desktop application for food donation and distribution",
   "main": "electron/main.js",
+  "author": {
+    "name": "Praso28",
+    "email": "praso28@example.com"
+  },
   "scripts": {
     "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\" \"npm run start:electron\"",
     "start:backend": "cd backend && npm run dev",
