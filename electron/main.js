@@ -94,14 +94,12 @@ function createWindow() {
   // Load the app
   const startUrl = isDev
     ? 'http://localhost:5173' // Vite dev server URL
-    : `file://${path.join(__dirname, '../frontend/dist/index.html')}`;
+    : `file://${path.join(__dirname, '../frontend/dist/index.html').replace(/\\/g, '/')}`;
 
   mainWindow.loadURL(startUrl);
 
-  // Open DevTools in development mode
-  if (isDev) {
-    mainWindow.webContents.openDevTools();
-  }
+  // Open DevTools for debugging
+  mainWindow.webContents.openDevTools();
 
   // Handle window being closed
   mainWindow.on('closed', () => {
@@ -111,13 +109,11 @@ function createWindow() {
 
 // Create window when Electron is ready
 app.whenReady().then(() => {
-  // Start the backend server first
-  startBackendServer();
+  // Don't start the backend server, it's already running
+  // startBackendServer();
 
-  // Wait a moment for the backend to start before creating the window
-  setTimeout(() => {
-    createWindow();
-  }, 2000); // 2 seconds delay
+  // Create the window immediately
+  createWindow();
 
   // On macOS, recreate window when dock icon is clicked and no windows are open
   app.on('activate', () => {
