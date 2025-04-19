@@ -1,0 +1,44 @@
+name: Build Electron App (Fixed)
+
+on:
+  push:
+    branches: [ fix-resource-paths ]
+  pull_request:
+    branches: [ fix-resource-paths ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
+
+    - name: Install dependencies
+      run: |
+        npm install
+        cd frontend && npm install
+        cd ../backend && npm install
+        cd ..
+
+    - name: Build frontend
+      run: |
+        cd frontend
+        if (!(Test-Path -Path "src/types")) { New-Item -Path "src/types" -ItemType Directory }
+        echo 'declare module "@vitejs/plugin-react" { const plugin: any; export default plugin; }' > src/types/vitejs-plugin-react.d.ts
+        npx vite build
+        cd ..
+
+    - name: Package Electron app
+      run: npx electron-builder --win --publish never
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: MealMate-Windows-Fixed
+        path: dist/*.exe
