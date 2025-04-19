@@ -71,8 +71,41 @@ export const getDonationById = async (id: number): Promise<Donation> => {
  * @returns Promise with created donation
  */
 export const createDonation = async (data: DonationFormData): Promise<Donation> => {
-  const response = await api.post<Donation>('/donations', data);
-  return response.data;
+  console.log('Creating donation with data:', data);
+  try {
+    // Clean up the data before sending
+    const cleanData = { ...data };
+
+    // Remove any undefined or null values
+    Object.keys(cleanData).forEach(key => {
+      if (cleanData[key as keyof DonationFormData] === undefined ||
+          cleanData[key as keyof DonationFormData] === null) {
+        delete cleanData[key as keyof DonationFormData];
+      }
+    });
+
+    // If categories is empty, set it to an empty array
+    if (!cleanData.categories || cleanData.categories.length === 0) {
+      cleanData.categories = [];
+    }
+
+    // Ensure quantity is a number
+    if (typeof cleanData.quantity === 'string') {
+      cleanData.quantity = parseFloat(cleanData.quantity);
+    }
+
+    // Ensure foodbank_id is a number
+    if (cleanData.foodbank_id && typeof cleanData.foodbank_id === 'string') {
+      cleanData.foodbank_id = parseInt(cleanData.foodbank_id);
+    }
+
+    console.log('Sending cleaned donation data:', cleanData);
+    const response = await api.post<Donation>('/donations', cleanData);
+    return response.data;
+  } catch (error) {
+    console.error('Error creating donation:', error);
+    throw error;
+  }
 };
 
 /**

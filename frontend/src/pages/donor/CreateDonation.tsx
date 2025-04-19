@@ -58,17 +58,27 @@ const CreateDonation: React.FC = () => {
       { id: 12, name: 'Other' }
     ]);
 
-    // For now, we'll use mock foodbanks data
-    setFoodbanks([
-      { id: 4, name: 'Community Food Bank', email: 'foodbank@example.com' },
-      { id: 5, name: 'City Food Bank', email: 'cityfoodbank@example.com' }
-    ]);
+    // Fetch foodbanks from the API
+    const fetchFoodbanks = async () => {
+      try {
+        // For now, we'll use mock foodbanks data
+        setFoodbanks([
+          { id: 4, name: 'Community Food Bank', email: 'foodbank@example.com' },
+          { id: 5, name: 'City Food Bank', email: 'cityfoodbank@example.com' }
+        ]);
 
-    // Set default foodbank
-    setFormData(prev => ({
-      ...prev,
-      foodbank_id: 4 // Default to the first foodbank
-    }));
+        // Set default foodbank
+        setFormData(prev => ({
+          ...prev,
+          foodbank_id: 4 // Default to the first foodbank
+        }));
+      } catch (error) {
+        console.error('Error fetching foodbanks:', error);
+        showToast('error', 'Failed to load foodbanks');
+      }
+    };
+
+    fetchFoodbanks();
   }, []);
 
   const handleChange = (
@@ -103,11 +113,42 @@ const CreateDonation: React.FC = () => {
     setIsLoading(true);
 
     try {
-      await createDonation(formData);
+      // Validate required fields
+      if (!formData.title) throw new Error('Title is required');
+      if (!formData.pickup_address) throw new Error('Pickup address is required');
+      if (!formData.pickup_city) throw new Error('Pickup city is required');
+      if (!formData.pickup_state) throw new Error('Pickup state is required');
+      if (!formData.pickup_zip_code) throw new Error('Pickup zip code is required');
+      if (!formData.pickup_date) throw new Error('Pickup date is required');
+      if (!formData.pickup_time_start) throw new Error('Pickup start time is required');
+      if (!formData.pickup_time_end) throw new Error('Pickup end time is required');
+
+      // Format the data before sending
+      const formattedData = {
+        ...formData,
+        // Ensure quantity is a number
+        quantity: Number(formData.quantity),
+        // Ensure foodbank_id is a number
+        foodbank_id: formData.foodbank_id ? Number(formData.foodbank_id) : undefined,
+        // Ensure categories is an array (even if empty)
+        categories: formData.categories || [],
+        // Set default values for optional fields
+        description: formData.description || '',
+        expiry_date: formData.expiry_date || null,
+        pickup_instructions: formData.pickup_instructions || ''
+      };
+
+      console.log('Submitting donation with formatted data:', formattedData);
+      await createDonation(formattedData);
       showToast('success', 'Donation created successfully');
       navigate('/donations');
-    } catch (error) {
-      showToast('error', 'Failed to create donation');
+    } catch (error: any) {
+      console.error('Error in handleSubmit:', error);
+      if (error.message) {
+        showToast('error', error.message);
+      } else {
+        showToast('error', error.response?.data?.error || 'Failed to create donation');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -202,32 +243,48 @@ const CreateDonation: React.FC = () => {
                 <label htmlFor="quantity" className="block text-sm font-medium text-gray-700">
                   Quantity
                 </label>
-                <div className="mt-1 flex rounded-md shadow-sm">
-                  <input
-                    type="number"
-                    name="quantity"
-                    id="quantity"
-                    min="0.1"
-                    step="0.1"
-                    required
-                    className="focus:ring-orange-500 focus:border-orange-500 flex-1 block w-full rounded-none rounded-l-md sm:text-sm border-gray-300"
-                    value={formData.quantity}
-                    onChange={handleChange}
-                  />
-                  <select
-                    id="unit"
-                    name="unit"
-                    className="focus:ring-orange-500 focus:border-orange-500 inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm"
-                    value={formData.unit}
-                    onChange={handleChange}
-                  >
-                    <option value="kg">kg</option>
-                    <option value="lbs">lbs</option>
-                    <option value="items">items</option>
-                    <option value="servings">servings</option>
-                    <option value="boxes">boxes</option>
-                    <option value="packages">packages</option>
-                  </select>
+                <div className="mt-1 grid grid-cols-2 gap-4">
+                  <div className="col-span-1">
+                    <label htmlFor="quantity" className="block text-xs text-gray-500 mb-1">
+                      Amount
+                    </label>
+                    <input
+                      type="number"
+                      name="quantity"
+                      id="quantity"
+                      min="0.1"
+                      step="0.1"
+                      required
+                      className="focus:ring-orange-500 focus:border-orange-500 block w-full rounded-md sm:text-sm border-gray-300"
+                      value={formData.quantity}
+                      onChange={(e) => {
+                        const value = parseFloat(e.target.value);
+                        setFormData(prev => ({
+                          ...prev,
+                          quantity: isNaN(value) ? 1 : value
+                        }));
+                      }}
+                    />
+                  </div>
+                  <div className="col-span-1">
+                    <label htmlFor="unit" className="block text-xs text-gray-500 mb-1">
+                      Unit
+                    </label>
+                    <select
+                      id="unit"
+                      name="unit"
+                      className="focus:ring-orange-500 focus:border-orange-500 block w-full rounded-md border-gray-300 bg-white text-gray-700 sm:text-sm"
+                      value={formData.unit}
+                      onChange={handleChange}
+                    >
+                      <option value="kg">kg</option>
+                      <option value="lbs">lbs</option>
+                      <option value="items">items</option>
+                      <option value="servings">servings</option>
+                      <option value="boxes">boxes</option>
+                      <option value="packages">packages</option>
+                    </select>
+                  </div>
                 </div>
               </div>
 

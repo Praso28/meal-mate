@@ -109,11 +109,18 @@ function createWindow() {
 
 // Create window when Electron is ready
 app.whenReady().then(() => {
-  // Don't start the backend server, it's already running
-  // startBackendServer();
+  // In development mode, we'll start the backend server separately
+  if (!isDev) {
+    startBackendServer();
 
-  // Create the window immediately
-  createWindow();
+    // Wait a moment for the backend to start before creating the window
+    setTimeout(() => {
+      createWindow();
+    }, 2000); // 2 seconds delay
+  } else {
+    // In development mode, create the window immediately
+    createWindow();
+  }
 
   // On macOS, recreate window when dock icon is clicked and no windows are open
   app.on('activate', () => {

@@ -13,33 +13,24 @@ body {
 }
 
 .loading-spinner {
-  @apply flex items-center justify-center min-h-screen;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
 }
 
 .loading-spinner::after {
   content: '';
-  @apply w-12 h-12 border-4 border-orange-500 border-t-transparent rounded-full animate-spin;
-}// foodBank.js
-module.exports = (sequelize, DataTypes) => {
-  const FoodBank = sequelize.define('FoodBank', {
-    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    name: { type: DataTypes.STRING, allowNull: false },
-    location: { type: DataTypes.STRING },
-    capacity: { type: DataTypes.INTEGER },
-    contact: { type: DataTypes.STRING }
-  });
+  width: 3rem;
+  height: 3rem;
+  border: 0.25rem solid #f97316;
+  border-top-color: transparent;
+  border-radius: 9999px;
+  animation: spin 1s linear infinite;
+}
 
-  return FoodBank;
-};
-// foodBank.js
-module.exports = (sequelize, DataTypes) => {
-  const FoodBank = sequelize.define('FoodBank', {
-    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    name: { type: DataTypes.STRING, allowNull: false },
-    location: { type: DataTypes.STRING },
-    capacity: { type: DataTypes.INTEGER },
-    contact: { type: DataTypes.STRING }
-  });
-
-  return FoodBank;
-};
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

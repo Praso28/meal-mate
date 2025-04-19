@@ -33,6 +33,11 @@ api.interceptors.response.use(
       window.location.href = '/login';
     }
 
+    // Handle bad request errors (400)
+    if (error.response?.status === 400) {
+      console.error('Bad Request Error:', error.response.data);
+    }
+
     // Handle network errors
     if (error.code === 'ERR_NETWORK' || error.code === 'ECONNABORTED') {
       console.error('Network error:', error.message);
