@@ -1,0 +1,68 @@
+DatabaseName,ParentSchema,ParentTable,ColumnName,ColumnOrder,DataType,ColumnSize,ConstraintType,ChildSchema,ChildTable,ChildColumn
+,public,users,id,1,SERIAL,NULL,"PRIMARY KEY",NULL,NULL,NULL
+,public,users,email,2,VARCHAR,255,NULL,NULL,NULL,NULL
+,public,users,password,3,VARCHAR,255,NULL,NULL,NULL,NULL
+,public,users,name,4,VARCHAR,255,NULL,NULL,NULL,NULL
+,public,users,role,5,VARCHAR,50,NULL,NULL,NULL,NULL
+,public,users,phone,6,VARCHAR,20,NULL,NULL,NULL,NULL
+,public,users,address,7,VARCHAR,255,NULL,NULL,NULL,NULL
+,public,users,city,8,VARCHAR,100,NULL,NULL,NULL,NULL
+,public,users,state,9,VARCHAR,100,NULL,NULL,NULL,NULL
+,public,users,zip_code,10,VARCHAR,20,NULL,NULL,NULL,NULL
+,public,users,created_at,11,TIMESTAMP,NULL,NULL,NULL,NULL,NULL
+,public,users,updated_at,12,TIMESTAMP,NULL,NULL,NULL,NULL,NULL
+,public,users,last_login,13,TIMESTAMP,NULL,NULL,NULL,NULL,NULL
+,public,users,status,14,VARCHAR,20,NULL,NULL,NULL,NULL
+,public,donations,id,1,SERIAL,NULL,"PRIMARY KEY",NULL,NULL,NULL
+,public,donations,donor_id,2,INTEGER,NULL,"FOREIGN KEY",public,users,id
+,public,donations,title,3,VARCHAR,255,NULL,NULL,NULL,NULL
+,public,donations,description,4,TEXT,NULL,NULL,NULL,NULL,NULL
+,public,donations,quantity,5,NUMERIC,NULL,NULL,NULL,NULL,NULL
+,public,donations,unit,6,VARCHAR,20,NULL,NULL,NULL,NULL
+,public,donations,expiry_date,7,DATE,NULL,NULL,NULL,NULL,NULL
+,public,donations,pickup_address,8,VARCHAR,255,NULL,NULL,NULL,NULL
+,public,donations,pickup_city,9,VARCHAR,100,NULL,NULL,NULL,NULL
+,public,donations,pickup_state,10,VARCHAR,100,NULL,NULL,NULL,NULL
+,public,donations,pickup_zip_code,11,VARCHAR,20,NULL,NULL,NULL,NULL
+,public,donations,pickup_instructions,12,TEXT,NULL,NULL,NULL,NULL,NULL
+,public,donations,pickup_date,13,DATE,NULL,NULL,NULL,NULL,NULL
+,public,donations,pickup_time_start,14,TIME,NULL,NULL,NULL,NULL,NULL
+,public,donations,pickup_time_end,15,TIME,NULL,NULL,NULL,NULL,NULL
+,public,donations,status,16,VARCHAR,20,NULL,NULL,NULL,NULL
+,public,donations,volunteer_id,17,INTEGER,NULL,"FOREIGN KEY",public,users,id
+,public,donations,foodbank_id,18,INTEGER,NULL,"FOREIGN KEY",public,users,id
+,public,donations,created_at,19,TIMESTAMP,NULL,NULL,NULL,NULL,NULL
+,public,donations,updated_at,20,TIMESTAMP,NULL,NULL,NULL,NULL,NULL
+,public,categories,id,1,SERIAL,NULL,"PRIMARY KEY",NULL,NULL,NULL
+,public,categories,name,2,VARCHAR,100,NULL,NULL,NULL,NULL
+,public,categories,description,3,TEXT,NULL,NULL,NULL,NULL,NULL
+,public,categories,created_at,4,TIMESTAMP,NULL,NULL,NULL,NULL,NULL
+,public,categories,updated_at,5,TIMESTAMP,NULL,NULL,NULL,NULL,NULL
+,public,donation_categories,donation_id,1,INTEGER,NULL,"PRIMARY KEY",NULL,NULL,NULL
+,public,donation_categories,donation_id,1,INTEGER,NULL,"FOREIGN KEY",public,donations,id
+,public,donation_categories,category_id,2,INTEGER,NULL,"PRIMARY KEY",NULL,NULL,NULL
+,public,donation_categories,category_id,2,INTEGER,NULL,"FOREIGN KEY",public,categories,id
+,public,notifications,id,1,SERIAL,NULL,"PRIMARY KEY",NULL,NULL,NULL
+,public,notifications,user_id,2,INTEGER,NULL,"FOREIGN KEY",public,users,id
+,public,notifications,title,3,VARCHAR,255,NULL,NULL,NULL,NULL
+,public,notifications,message,4,TEXT,NULL,NULL,NULL,NULL,NULL
+,public,notifications,type,5,VARCHAR,20,NULL,NULL,NULL,NULL
+,public,notifications,read,6,BOOLEAN,NULL,NULL,NULL,NULL,NULL
+,public,notifications,related_id,7,INTEGER,NULL,NULL,NULL,NULL,NULL
+,public,notifications,related_type,8,VARCHAR,50,NULL,NULL,NULL,NULL
+,public,notifications,created_at,9,TIMESTAMP,NULL,NULL,NULL,NULL,NULL
+,public,notifications,updated_at,10,TIMESTAMP,NULL,NULL,NULL,NULL,NULL
+,public,sessions,id,1,VARCHAR,255,"PRIMARY KEY",NULL,NULL,NULL
+,public,sessions,user_id,2,INTEGER,NULL,"FOREIGN KEY",public,users,id
+,public,sessions,expires_at,3,TIMESTAMP,NULL,NULL,NULL,NULL,NULL
+,public,sessions,data,4,JSONB,NULL,NULL,NULL,NULL,NULL
+,public,sessions,created_at,5,TIMESTAMP,NULL,NULL,NULL,NULL,NULL
+,public,sessions,updated_at,6,TIMESTAMP,NULL,NULL,NULL,NULL,NULL
+,public,inventory,id,1,SERIAL,NULL,"PRIMARY KEY",NULL,NULL,NULL
+,public,inventory,foodbank_id,2,INTEGER,NULL,"FOREIGN KEY",public,users,id
+,public,inventory,category_id,3,INTEGER,NULL,"FOREIGN KEY",public,categories,id
+,public,inventory,quantity,4,NUMERIC,NULL,NULL,NULL,NULL,NULL
+,public,inventory,unit,5,VARCHAR,20,NULL,NULL,NULL,NULL
+,public,inventory,expiry_date,6,DATE,NULL,NULL,NULL,NULL,NULL
+,public,inventory,created_at,7,TIMESTAMP,NULL,NULL,NULL,NULL,NULL
+,public,inventory,updated_at,8,TIMESTAMP,NULL,NULL,NULL,NULL,NULL

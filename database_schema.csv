@@ -1,0 +1,66 @@
+Table,Column,DataType,PrimaryKey,ForeignKey,References,Nullable,Description
+users,id,SERIAL,TRUE,FALSE,,FALSE,Unique identifier for users
+users,email,VARCHAR(255),FALSE,FALSE,,FALSE,User email address (unique)
+users,password,VARCHAR(255),FALSE,FALSE,,FALSE,Hashed password
+users,name,VARCHAR(255),FALSE,FALSE,,FALSE,User full name
+users,role,VARCHAR(50),FALSE,FALSE,,FALSE,"User role (admin, donor, volunteer, foodbank)"
+users,phone,VARCHAR(20),FALSE,FALSE,,TRUE,User phone number
+users,address,VARCHAR(255),FALSE,FALSE,,TRUE,User address
+users,city,VARCHAR(100),FALSE,FALSE,,TRUE,User city
+users,state,VARCHAR(100),FALSE,FALSE,,TRUE,User state/province
+users,zip_code,VARCHAR(20),FALSE,FALSE,,TRUE,User postal code
+users,created_at,TIMESTAMP,FALSE,FALSE,,FALSE,Record creation timestamp
+users,updated_at,TIMESTAMP,FALSE,FALSE,,FALSE,Record update timestamp
+users,last_login,TIMESTAMP,FALSE,FALSE,,TRUE,Last login timestamp
+users,status,VARCHAR(20),FALSE,FALSE,,FALSE,"Account status (active, inactive, suspended)"
+donations,id,SERIAL,TRUE,FALSE,,FALSE,Unique identifier for donations
+donations,donor_id,INTEGER,FALSE,TRUE,users.id,FALSE,Reference to donor user
+donations,title,VARCHAR(255),FALSE,FALSE,,FALSE,Donation title
+donations,description,TEXT,FALSE,FALSE,,TRUE,Donation description
+donations,quantity,NUMERIC,FALSE,FALSE,,FALSE,Donation quantity
+donations,unit,VARCHAR(20),FALSE,FALSE,,FALSE,"Unit of measurement (kg, lbs, items, etc.)"
+donations,expiry_date,DATE,FALSE,FALSE,,TRUE,Expiration date of food items
+donations,pickup_address,VARCHAR(255),FALSE,FALSE,,FALSE,Pickup location address
+donations,pickup_city,VARCHAR(100),FALSE,FALSE,,FALSE,Pickup location city
+donations,pickup_state,VARCHAR(100),FALSE,FALSE,,FALSE,Pickup location state/province
+donations,pickup_zip_code,VARCHAR(20),FALSE,FALSE,,FALSE,Pickup location postal code
+donations,pickup_instructions,TEXT,FALSE,FALSE,,TRUE,Special instructions for pickup
+donations,pickup_date,DATE,FALSE,FALSE,,FALSE,Scheduled pickup date
+donations,pickup_time_start,TIME,FALSE,FALSE,,FALSE,Pickup window start time
+donations,pickup_time_end,TIME,FALSE,FALSE,,FALSE,Pickup window end time
+donations,status,VARCHAR(20),FALSE,FALSE,,FALSE,"Donation status (pending, assigned, in_transit, completed, cancelled)"
+donations,volunteer_id,INTEGER,FALSE,TRUE,users.id,TRUE,Reference to assigned volunteer user
+donations,foodbank_id,INTEGER,FALSE,TRUE,users.id,TRUE,Reference to assigned foodbank user
+donations,created_at,TIMESTAMP,FALSE,FALSE,,FALSE,Record creation timestamp
+donations,updated_at,TIMESTAMP,FALSE,FALSE,,FALSE,Record update timestamp
+categories,id,SERIAL,TRUE,FALSE,,FALSE,Unique identifier for food categories
+categories,name,VARCHAR(100),FALSE,FALSE,,FALSE,Category name
+categories,description,TEXT,FALSE,FALSE,,TRUE,Category description
+categories,created_at,TIMESTAMP,FALSE,FALSE,,FALSE,Record creation timestamp
+categories,updated_at,TIMESTAMP,FALSE,FALSE,,FALSE,Record update timestamp
+donation_categories,donation_id,INTEGER,TRUE,TRUE,donations.id,FALSE,Reference to donation
+donation_categories,category_id,INTEGER,TRUE,TRUE,categories.id,FALSE,Reference to category
+notifications,id,SERIAL,TRUE,FALSE,,FALSE,Unique identifier for notifications
+notifications,user_id,INTEGER,FALSE,TRUE,users.id,FALSE,User receiving the notification
+notifications,title,VARCHAR(255),FALSE,FALSE,,FALSE,Notification title
+notifications,message,TEXT,FALSE,FALSE,,FALSE,Notification message content
+notifications,type,VARCHAR(20),FALSE,FALSE,,FALSE,"Notification type (info, success, warning, error)"
+notifications,read,BOOLEAN,FALSE,FALSE,,FALSE,Whether notification has been read
+notifications,related_id,INTEGER,FALSE,FALSE,,TRUE,ID of related entity (donation, user, etc.)
+notifications,related_type,VARCHAR(50),FALSE,FALSE,,TRUE,"Type of related entity (donation, user, etc.)"
+notifications,created_at,TIMESTAMP,FALSE,FALSE,,FALSE,Record creation timestamp
+notifications,updated_at,TIMESTAMP,FALSE,FALSE,,FALSE,Record update timestamp
+sessions,id,VARCHAR(255),TRUE,FALSE,,FALSE,Session identifier
+sessions,user_id,INTEGER,FALSE,TRUE,users.id,FALSE,Reference to user
+sessions,expires_at,TIMESTAMP,FALSE,FALSE,,FALSE,Session expiration timestamp
+sessions,data,JSONB,FALSE,FALSE,,TRUE,Session data
+sessions,created_at,TIMESTAMP,FALSE,FALSE,,FALSE,Record creation timestamp
+sessions,updated_at,TIMESTAMP,FALSE,FALSE,,FALSE,Record update timestamp
+inventory,id,SERIAL,TRUE,FALSE,,FALSE,Unique identifier for inventory items
+inventory,foodbank_id,INTEGER,FALSE,TRUE,users.id,FALSE,Reference to foodbank user
+inventory,category_id,INTEGER,FALSE,TRUE,categories.id,FALSE,Reference to food category
+inventory,quantity,NUMERIC,FALSE,FALSE,,FALSE,Available quantity
+inventory,unit,VARCHAR(20),FALSE,FALSE,,FALSE,Unit of measurement
+inventory,expiry_date,DATE,FALSE,FALSE,,TRUE,Expiration date
+inventory,created_at,TIMESTAMP,FALSE,FALSE,,FALSE,Record creation timestamp
+inventory,updated_at,TIMESTAMP,FALSE,FALSE,,FALSE,Record update timestamp
